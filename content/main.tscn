@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfmad6lf0cfnh"]
+
+[ext_resource type="PackedScene" uid="uid://cq4wu0fq0jen8" path="res://content/player_demo.tscn" id="1_yqvsc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yqvsc"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yqvsc"]
+material = SubResource("StandardMaterial3D_yqvsc")
+size = Vector2(100, 100)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yqvsc"]
+points = PackedVector3Array(-50, 0, -50, -50, 0, 50, 50, 0, -50, 50, 0, 50)
+
+[node name="Main" type="Node3D"]
+
+[node name="PlayerDemo" parent="." instance=ExtResource("1_yqvsc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3913314, 0)
+
+[node name="Camera3D" type="Camera3D" parent="PlayerDemo"]
+transform = Transform3D(1, 0, 0, 0, 0.8161376, 0.5778576, 0, -0.5778576, 0.8161376, -0.018569946, 4.008647, 2.1504755)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_yqvsc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_yqvsc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.97585917, 0.20248428, -0.08184745, -0.163072, 0.9248273, 0.3436597, 0.14528044, -0.32201645, 0.9355207, 0, 4.0627184, 5.6522913)
+light_color = Color(0.94937617, 1, 0.8717683, 1)
+shadow_enabled = true
