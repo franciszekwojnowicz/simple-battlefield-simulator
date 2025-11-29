@@ -28,7 +28,7 @@ func _process(delta):
 		var cam_offset = Vector3(0, height, distance)
 		cam_offset = global_transform.basis * cam_offset
 
-		var camera = $Camera3D
+		var camera = $CameraIsometric
 		var desired_cam_pos = target_position + cam_offset
 
 		camera.global_transform.origin = camera.global_transform.origin.lerp(desired_cam_pos, delta * smoothing)

@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cq4wu0fq0jen8"]
+[gd_scene load_steps=7 format=3 uid="uid://cq4wu0fq0jen8"]
 
 [ext_resource type="Script" uid="uid://dk7m3krokbjj3" path="res://content/player_demo.gd" id="1_wr6al"]
+[ext_resource type="Script" uid="uid://d25e5k1gph11s" path="res://content/camera_pivot.gd" id="2_7f84k"]
+[ext_resource type="PackedScene" uid="uid://0r5x1oeoxato" path="res://content/items/cannon.tscn" id="3_y0vck"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fyksl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yqvsc"]
-albedo_color = Color(0.4745098, 0.40784314, 1, 1)
+albedo_color = Color(0.25722882, 0.5978376, 0.4144482, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w5e7a"]
 material = SubResource("StandardMaterial3D_yqvsc")
@@ -18,3 +20,14 @@ shape = SubResource("CapsuleShape3D_fyksl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_w5e7a")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+script = ExtResource("2_7f84k")
+
+[node name="CameraIsometric" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.8161376, 0.5778576, 0, -0.5778576, 0.8161376, -0.018569946, 4.008647, 2.1504755)
+
+[node name="Cannon" parent="." instance=ExtResource("3_y0vck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.678, 0)
+
+[editable path="Cannon"]

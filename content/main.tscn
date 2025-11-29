@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dfmad6lf0cfnh"]
+[gd_scene load_steps=7 format=3 uid="uid://dfmad6lf0cfnh"]
 
 [ext_resource type="Script" uid="uid://ch5xha7t6chia" path="res://content/main.gd" id="1_cc6s6"]
 [ext_resource type="PackedScene" uid="uid://cq4wu0fq0jen8" path="res://content/player_demo.tscn" id="1_yqvsc"]
-[ext_resource type="Script" uid="uid://d25e5k1gph11s" path="res://content/camera_pivot.gd" id="2_w5e7a"]
 [ext_resource type="Texture2D" uid="uid://cj3mu83fv820" path="res://assets/textures/board.png" id="4_3sd65"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k03jb"]
@@ -22,13 +21,9 @@ script = ExtResource("1_cc6s6")
 [node name="PlayerDemo" parent="." instance=ExtResource("1_yqvsc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3913314, 0)
 
-[node name="CameraPivot" type="Node3D" parent="PlayerDemo"]
-script = ExtResource("2_w5e7a")
-
-[node name="Camera3D" type="Camera3D" parent="PlayerDemo/CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.8161376, 0.5778576, 0, -0.5778576, 0.8161376, -0.018569946, 4.008647, 2.1504755)
-
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 mesh = SubResource("PlaneMesh_yqvsc")
