@@ -1,13 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfmad6lf0cfnh"]
+[gd_scene load_steps=8 format=3 uid="uid://dfmad6lf0cfnh"]
 
 [ext_resource type="Script" uid="uid://ch5xha7t6chia" path="res://content/main.gd" id="1_cc6s6"]
 [ext_resource type="PackedScene" uid="uid://cq4wu0fq0jen8" path="res://content/player_demo.tscn" id="1_yqvsc"]
 [ext_resource type="Script" uid="uid://d25e5k1gph11s" path="res://content/camera_pivot.gd" id="2_w5e7a"]
+[ext_resource type="Texture2D" uid="uid://cj3mu83fv820" path="res://assets/textures/board.png" id="4_3sd65"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yqvsc"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k03jb"]
+albedo_texture = ExtResource("4_3sd65")
+uv1_scale = Vector3(20, 20, 20)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_yqvsc"]
-material = SubResource("StandardMaterial3D_yqvsc")
+material = SubResource("StandardMaterial3D_k03jb")
 size = Vector2(100, 100)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yqvsc"]

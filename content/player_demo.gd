@@ -20,10 +20,8 @@ func _physics_process(delta: float) -> void:
 	# Apply gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-
 	# Get input direction (normalized)
 	var input_vector = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-
 	
 	var cam_basis = cam.global_transform.basis.z.normalized()
 	var cam_axis = cam_basis
@@ -32,24 +30,26 @@ func _physics_process(delta: float) -> void:
 	var direction = cam_axis.normalized()
 	direction.y = 0
 	direction = direction.normalized()
-	print(direction)
+	
+	var temp_direction = [Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO]
+	
+	if Input.is_action_pressed("move_back"):
+		temp_direction[0] = direction
+	if Input.is_action_pressed("move_forward"):
+		temp_direction[1] = -direction
+	if Input.is_action_pressed("move_left"):
+		temp_direction[2] = direction.cross(Vector3.UP)
+	if Input.is_action_pressed("move_right"):
+		temp_direction[3] = -direction.cross(Vector3.UP)
+		
+	direction = temp_direction[0] + temp_direction[1] + temp_direction[2] + temp_direction[3]
+		
 	if input_vector:
 		moving = true
-	else:
-		moving = false
-	
-	if Input.is_action_just_pressed("move_back"):
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-	if Input.is_action_pressed("move_forward"):
-		velocity.x = -direction.x * speed
-		velocity.z = -direction.z * speed
-	if Input.is_action_pressed("move_left"):
-		velocity.x = direction.cross(Vector3.UP).x * speed
-		velocity.z = direction.cross(Vector3.UP).z * speed
-	if Input.is_action_pressed("move_right"):
-		velocity.x = -direction.cross(Vector3.UP).x * speed
-		velocity.z = -direction.cross(Vector3.UP).z * speed
+	else:
+		moving = false
 	
 	if not moving:
 		velocity.x = move_toward(velocity.x, 0, speed)
