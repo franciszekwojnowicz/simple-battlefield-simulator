@@ -84,5 +84,5 @@ func shoot():
 	# Assign your direction
 	shoot_dir = - cannon.global_position + point.global_position
 	bullet.direction = shoot_dir.normalized()
-	add_child(bullet)
+	get_tree().root.add_child(bullet)
 	bullet.global_position=point.global_position
