@@ -15,7 +15,7 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		yaw -= event.relative.x * sensitivity
 		pitch -= event.relative.y * sensitivity
-		pitch = clamp(pitch, -60, 10)  # limit up/down
+		pitch = clamp(pitch, -50, 30)  # limit up/down
 		rotation_degrees = Vector3(pitch, yaw, 0)
 
 func _process(delta):

@@ -5,8 +5,8 @@ var direction := Vector3.ZERO
 
 func _ready():
 	linear_velocity = direction * speed
-	await get_tree().create_timer(15).timeout
 	continuous_cd = true
+	await get_tree().create_timer(15).timeout
 	queue_free()
 
 func _physics_process(delta: float) -> void:
