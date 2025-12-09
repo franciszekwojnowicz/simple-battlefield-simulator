@@ -1,80 +1,81 @@
 [gd_scene load_steps=9 format=3 uid="uid://dfmad6lf0cfnh"]
 
 [ext_resource type="Script" uid="uid://ch5xha7t6chia" path="res://content/main.gd" id="1_cc6s6"]
-[ext_resource type="PackedScene" uid="uid://cq4wu0fq0jen8" path="res://content/player_demo.tscn" id="1_yqvsc"]
 [ext_resource type="Texture2D" uid="uid://cj3mu83fv820" path="res://assets/textures/board.png" id="4_3sd65"]
 [ext_resource type="PackedScene" uid="uid://dqrgial2qqpwq" path="res://content/meshes/solide_cube.tscn" id="4_k03jb"]
+[ext_resource type="PackedScene" uid="uid://blfid41568rh7" path="res://content/player/baloon.tscn" id="5_gamge"]
 [ext_resource type="PackedScene" uid="uid://cj0xuq1oqxtb1" path="res://content/meshes/rigid_cube.tscn" id="5_k03jb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k03jb"]
 albedo_texture = ExtResource("4_3sd65")
-uv1_scale = Vector3(20, 20, 20)
+uv1_scale = Vector3(200, 200, 200)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_yqvsc"]
 material = SubResource("StandardMaterial3D_k03jb")
-size = Vector2(100, 100)
+size = Vector2(1000, 1000)
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yqvsc"]
-points = PackedVector3Array(-50, 0, -50, -50, 0, 50, 50, 0, -50, 50, 0, 50)
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_k03jb"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_cc6s6")
 
-[node name="PlayerDemo" parent="." instance=ExtResource("1_yqvsc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3913314, 0)
+[node name="Baloon" parent="." instance=ExtResource("5_gamge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5831523, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="DemoEnviroment" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DemoEnviroment"]
 collision_layer = 3
 collision_mask = 3
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DemoEnviroment/StaticBody3D"]
 mesh = SubResource("PlaneMesh_yqvsc")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_yqvsc")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DemoEnviroment/StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_k03jb")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.97585917, 0.20248428, -0.08184745, -0.163072, 0.9248273, 0.3436597, 0.14528044, -0.32201645, 0.9355207, 0, 4.0627184, 5.6522913)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="DemoEnviroment"]
+transform = Transform3D(0.97585917, 0.20248426, -0.08184743, -0.163072, 0.9248273, 0.34365973, 0.14528044, -0.32201645, 0.9355207, 0, 4.0627184, 5.6522913)
 light_color = Color(0.94937617, 1, 0.8717683, 1)
 shadow_enabled = true
 
-[node name="Meshes" type="Node3D" parent="."]
+[node name="Meshes" type="Node3D" parent="DemoEnviroment"]
 
-[node name="SolideCube" parent="Meshes" instance=ExtResource("4_k03jb")]
+[node name="SolideCube" parent="DemoEnviroment/Meshes" instance=ExtResource("4_k03jb")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 1, 0, -7)
 
-[node name="SolideCube2" parent="Meshes" instance=ExtResource("4_k03jb")]
+[node name="SolideCube2" parent="DemoEnviroment/Meshes" instance=ExtResource("4_k03jb")]
 transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.003827)
 
-[node name="SolideCube3" parent="Meshes" instance=ExtResource("4_k03jb")]
+[node name="SolideCube3" parent="DemoEnviroment/Meshes" instance=ExtResource("4_k03jb")]
 transform = Transform3D(6.7821093, -7.3486724, 0, 7.3486724, 6.7821093, 0, 0, 0, 10, -10.743168, -1.3546352, 0)
 
-[node name="RigidCube" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1695237, 1, 11.628122)
 
-[node name="RigidCube2" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube2" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7792864, 1, 11.628122)
 
-[node name="RigidCube3" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube3" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59168506, 1, 11.628122)
 
-[node name="RigidCube4" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube4" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0173278, 1, 11.628122)
 
-[node name="RigidCube5" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube5" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2784785, 2.2080638, 11.628122)
 
-[node name="RigidCube6" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube6" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21671236, 2.2080638, 11.628122)
 
-[node name="RigidCube7" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube7" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4177226, 2.2080638, 11.628122)
 
-[node name="RigidCube8" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube8" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8069099, 3.4429467, 11.628122)
 
-[node name="RigidCube9" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube9" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.44029558, 3.4429467, 11.628122)
 
-[node name="RigidCube10" parent="Meshes" instance=ExtResource("5_k03jb")]
+[node name="RigidCube10" parent="DemoEnviroment/Meshes" instance=ExtResource("5_k03jb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15955424, 4.6535397, 11.628122)

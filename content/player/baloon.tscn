@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://blfid41568rh7"]
+
+[ext_resource type="Script" uid="uid://6w5hs783ap07" path="res://content/player/baloon.gd" id="1_7eq7y"]
+[ext_resource type="Script" uid="uid://d25e5k1gph11s" path="res://content/camera_pivot.gd" id="2_eqhej"]
+[ext_resource type="PackedScene" uid="uid://0r5x1oeoxato" path="res://content/items/cannon.tscn" id="3_523fv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fyksl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yqvsc"]
+albedo_color = Color(0.25722882, 0.5978376, 0.4144482, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_w5e7a"]
+material = SubResource("StandardMaterial3D_yqvsc")
+
+[node name="Baloon" type="CharacterBody3D"]
+script = ExtResource("1_7eq7y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_fyksl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_w5e7a")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+script = ExtResource("2_eqhej")
+
+[node name="CameraIsometric" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.8161376, 0.5778576, 0, -0.5778576, 0.8161376, -0.018569946, 4.008647, 2.1504755)
+
+[node name="Cannon" parent="." instance=ExtResource("3_523fv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.678, 0)
+
+[node name="TemperatureLossTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="TemperatureLossTimer" to="." method="_on_temperature_loss_timer_timeout"]
+
+[editable path="Cannon"]
