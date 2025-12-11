@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Baloon
 
 ## Movement speed in meters per second
 var speed: float = 10.0
@@ -94,7 +95,7 @@ func moving(delta) -> void:
 	
 	# calculate baloon net velocity
 	force_net = (gravity * baloon_volume * (preassure/gas_constant) * (1/t_outside_baloon - 1/t_inside_baloon) - baloon_mass * gravity) 
-	velocity.y = force_net / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon)))
+	velocity.y = (force_net / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon))))
 	
 	if Input.is_action_pressed("burn"):
 		t_inside_baloon += 1 * delta  * 5
@@ -104,7 +105,6 @@ func moving(delta) -> void:
 		temperature_loss_timer.start(4)
 		timer_on = true
 
-	print(t_inside_baloon)
 	# Apply movement
 	move_and_slide()
 

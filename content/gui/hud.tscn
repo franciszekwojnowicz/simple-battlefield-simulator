@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://bx6wkb4e11scd"]
+
+[ext_resource type="Script" uid="uid://drc84nww18lxv" path="res://content/gui/parameters.gd" id="1_ui5tf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_afmh6"]
+
+[node name="Hud" type="CanvasLayer"]
+
+[node name="Parameters" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_ui5tf")
+
+[node name="TemperatureInside" type="Label" parent="Parameters"]
+layout_mode = 0
+offset_left = -229.0
+offset_top = -35.0
+offset_right = 39.0
+offset_bottom = -6.0
+text = "Temp inside::"
+label_settings = SubResource("LabelSettings_afmh6")
+vertical_alignment = 2
+
+[node name="TemperatureOutside" type="Label" parent="Parameters"]
+layout_mode = 0
+offset_left = -228.0
+offset_top = -12.0
+offset_right = 40.0
+offset_bottom = 17.0
+text = "\"Temp outside:"
+label_settings = SubResource("LabelSettings_afmh6")
+vertical_alignment = 2
