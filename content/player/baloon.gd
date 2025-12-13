@@ -8,17 +8,18 @@ var jump_velocity: float = 4.5
 ## Gravity (default to project setting)
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-var cam : Camera3D
-var is_moving = false
+# Cameras
+## Isometric baloon camera
+@onready var camera_isometric: Camera3D = $CameraPivot/CameraIsometric
 
-# bullet and its directory
+# bullet and its direction
 var BULLET = preload("uid://cimw3lovbsfxb")
 var shoot_dir : Vector3
 
 @onready var cannon: Node3D = $Cannon
 @onready var point: Node3D = $Cannon/Point
 
-
+# Baloon phisic variables #########################################################
 ## Describe the temperature inside the baloon
 @export var t_inside_baloon : float = 290.0 #K  #350
 ## Describe the temperature outside the baloon
@@ -49,35 +50,27 @@ var air_resistance_force : float
 ## Describe net force including air resistance
 var final_force_net : float
 
+
 func _ready() -> void:
-	cam = get_node("CameraPivot/CameraIsometric")  # adjust path if needed
 	add_to_group("baloon")
 
 
 func _physics_process(delta: float) -> void:
-	if not cam:
-		return
-	moving(delta)
-	# apply cannon rotation towards the current camera view
-	cannon.global_rotation.x = - cam.global_rotation.x - deg_to_rad(40)
-	cannon.global_rotation.y =   cam.global_rotation.y + deg_to_rad(180)
-	if Input.is_action_just_pressed("shoot"):
-		shoot()
+	moving()
+	cannon_mechanics()
+	temperature_mechanics(delta)
 
 
 ## Takes intput from keybord and transform it into baloon movement
-func moving(delta) -> void:
-	# Get input direction 
-	var input_vector = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+func moving() -> void:
 	# Get Camera direction
-	var cam_axis = cam.global_transform.basis.z.normalized()
-	var direction = cam_axis.normalized()
+	var direction = camera_isometric.global_transform.basis.z.normalized()
 	shoot_dir = -direction
 	direction.y = 0
 	direction = direction.normalized()
 	
+	# calculate direction based on input keys
 	var temp_direction = [Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO]
-	
 	if Input.is_action_pressed("move_back"):
 		temp_direction[0] = direction
 	if Input.is_action_pressed("move_forward"):
@@ -86,18 +79,13 @@ func moving(delta) -> void:
 		temp_direction[2] = direction.cross(Vector3.UP)
 	if Input.is_action_pressed("move_right"):
 		temp_direction[3] = -direction.cross(Vector3.UP)
-	
 	direction = temp_direction[0] + temp_direction[1] + temp_direction[2] + temp_direction[3]
 	
-	if input_vector:
-		is_moving = true
+	# Apply velocity
+	if Input.get_vector("move_left", "move_right", "move_forward", "move_back"):
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-	else:
-		is_moving = false
-	
-	# brake when there is no key pressed
-	if not is_moving and is_on_floor():
+	elif is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 	
@@ -105,20 +93,32 @@ func moving(delta) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 	
-	# calculate baloon net velocity up/down
+	# calculate baloon net velocity up/down and apply movement
 	velocity.y += calculate_acceleration() 
-	
-	if Input.is_action_pressed("burn"):
-		t_inside_baloon += 1 * delta  * 5
-
-	
-	if not timer_on:
-		temperature_loss_timer.start(4)
-		timer_on = true
-
-	# Apply movement
 	move_and_slide()
-	
+
+
+## Calculate current acceleration including gravity, buoyancy and air resistance
+func calculate_acceleration() -> float:
+	force_net = (gravity * baloon_volume * (preassure/gas_constant) * (1/t_outside_baloon - 1/t_inside_baloon) - baloon_mass * gravity)
+	air_resistance_force = (surface_from_above*0.8*velocity.y*velocity.y*(preassure/(gas_constant*t_outside_baloon)))/2
+	final_force_net = force_net
+	# apply air resistance agains current movement direction
+	if velocity.y >= 1:
+		final_force_net = force_net - air_resistance_force
+	elif velocity.y <= -1:
+		final_force_net = force_net + air_resistance_force
+	return (final_force_net / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon))))
+
+
+## Manage cannon rotation mased on mose/camera movement and apply shooting
+func cannon_mechanics() -> void:
+	# apply cannon rotation towards the current camera view
+	cannon.global_rotation.x = - camera_isometric.global_rotation.x - deg_to_rad(40)
+	cannon.global_rotation.y =   camera_isometric.global_rotation.y + deg_to_rad(180)
+	if Input.is_action_just_pressed("shoot"):
+		shoot()
+
 
 ## Create new instance of bullet scene and add a cannon's direction to the bullet velocity
 func shoot() -> void:
@@ -129,20 +129,17 @@ func shoot() -> void:
 	get_tree().root.add_child(bullet)
 	bullet.global_position=point.global_position
 
-## Calculate current acceleration including gravity, buoyancy and air resistance
-func calculate_acceleration() -> float:
-	force_net = (gravity * baloon_volume * (preassure/gas_constant) * (1/t_outside_baloon - 1/t_inside_baloon) - baloon_mass * gravity)
-	air_resistance_force = (surface_from_above*0.8*velocity.y*velocity.y*(preassure/(gas_constant*t_outside_baloon)))/2
-	final_force_net = force_net
-	if velocity.y >= 1:
-		final_force_net = force_net - air_resistance_force
-	elif velocity.y <= -1:
-		final_force_net = force_net + air_resistance_force
 
-	return (final_force_net / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon))))
+## Manage temperature rise and loss, when key pressed heat the air, temperature decreasses over time
+func temperature_mechanics(delta):
+	if Input.is_action_pressed("burn"):
+		t_inside_baloon += 1 * delta  * 5
+	if not timer_on:
+		temperature_loss_timer.start(4)
+		timer_on = true
 
 
-
+## Decrease temperature inside baloon's envelope over time
 func _on_temperature_loss_timer_timeout() -> void:
 	t_inside_baloon -= 1
 	t_inside_baloon = max (t_outside_baloon, t_inside_baloon)

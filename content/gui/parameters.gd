@@ -5,13 +5,13 @@ extends Control
 @onready var height_above_the_ground: Label = $HeightAboveTheGround
 @onready var velocity_up_down: Label = $VelocityUpDown
 
-
-
 var baloon: Baloon
 var update_parameters: float = 0
 
+
 func _ready() -> void:
 	baloon = get_tree().get_first_node_in_group("baloon")
+
 
 func _physics_process(delta: float) -> void:
 	if update_parameters >= 1:
