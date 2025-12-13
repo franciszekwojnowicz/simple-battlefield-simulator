@@ -18,24 +18,36 @@ var shoot_dir : Vector3
 @onready var cannon: Node3D = $Cannon
 @onready var point: Node3D = $Cannon/Point
 
-## Describe differnce between forces which afect the baloon in up/down direction
-var force_net : float = 0.0 #N
+
 ## Describe the temperature inside the baloon
 @export var t_inside_baloon : float = 290.0 #K  #350
 ## Describe the temperature outside the baloon
 @export var t_outside_baloon : float = 290.0 #K
 ## Describe baloon mass without the air inside
-@export var baloon_mass : float = 500.0 #kg
+@export var baloon_mass : float = 800.0 #kg
+## Describe baloon evelope radius
+@export var evelope_radius : float = 11 #m
+## Describe baloon surface from above, for air resistance
+var surface_from_above: float = PI * evelope_radius * evelope_radius #m2
 ## Describe baloon inside volume in m3
-@export var baloon_volume : float = 5000.0 #m3
+var baloon_volume : float = 4.0/3.0 * PI * evelope_radius * evelope_radius * evelope_radius #m3
 ## Describe atmospheric pressure
 @export var preassure : float = 101325 #Pa
+## Desribe air resistance value for specific shape
+@export var drag_coefficient = 0.7
 ## Describe gas constant for air
-@export var gas_constant : float = 287.0 #J/(kg*K)
+var gas_constant : float = 287.0 #J/(kg*K)
 
 # timer variables
 @onready var temperature_loss_timer: Timer = $TemperatureLossTimer
 var timer_on = false
+
+## Describe differnce between forces which afect the baloon in up/down direction
+var force_net : float = 0.0 #N
+## Describe air redsistance force dependent on current velocity
+var air_resistance_force : float
+## Describe net force including air resistance
+var final_force_net : float
 
 func _ready() -> void:
 	cam = get_node("CameraPivot/CameraIsometric")  # adjust path if needed
@@ -93,9 +105,8 @@ func moving(delta) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 	
-	# calculate baloon net velocity
-	force_net = (gravity * baloon_volume * (preassure/gas_constant) * (1/t_outside_baloon - 1/t_inside_baloon) - baloon_mass * gravity) 
-	velocity.y = (force_net / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon))))
+	# calculate baloon net velocity up/down
+	velocity.y += calculate_acceleration() 
 	
 	if Input.is_action_pressed("burn"):
 		t_inside_baloon += 1 * delta  * 5
@@ -107,8 +118,7 @@ func moving(delta) -> void:
 
 	# Apply movement
 	move_and_slide()
-
-
+	
 
 ## Create new instance of bullet scene and add a cannon's direction to the bullet velocity
 func shoot() -> void:
@@ -119,8 +129,24 @@ func shoot() -> void:
 	get_tree().root.add_child(bullet)
 	bullet.global_position=point.global_position
 
+## Calculate current acceleration including gravity, buoyancy and air resistance
+func calculate_acceleration() -> float:
+	force_net = (gravity * baloon_volume * (preassure/gas_constant) * (1/t_outside_baloon - 1/t_inside_baloon) - baloon_mass * gravity)
+	air_resistance_force = (surface_from_above*0.8*velocity.y*velocity.y*(preassure/(gas_constant*t_outside_baloon)))/2
+	final_force_net = force_net
+	if velocity.y >= 1:
+		final_force_net = force_net - air_resistance_force
+	elif velocity.y <= -1:
+		final_force_net = force_net + air_resistance_force
+
+	return (final_force_net / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon))))
+
+
 
 func _on_temperature_loss_timer_timeout() -> void:
 	t_inside_baloon -= 1
 	t_inside_baloon = max (t_outside_baloon, t_inside_baloon)
 	timer_on = false
+	print("air resistance: " + str(air_resistance_force))
+	print("net force: " + str(force_net))
+	print("velocity: " + str((round(velocity.y*100)/100)))

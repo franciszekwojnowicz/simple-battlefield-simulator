@@ -21,20 +21,40 @@ script = ExtResource("1_ui5tf")
 
 [node name="TemperatureInside" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = -229.0
-offset_top = -35.0
-offset_right = 39.0
-offset_bottom = -6.0
-text = "Temp inside::"
+offset_left = -183.0
+offset_top = -57.0
+offset_right = 85.0
+offset_bottom = -28.0
+text = "Temp inside:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
 
 [node name="TemperatureOutside" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = -228.0
-offset_top = -12.0
-offset_right = 40.0
-offset_bottom = 17.0
-text = "\"Temp outside:"
+offset_left = -184.0
+offset_top = -35.0
+offset_right = 84.0
+offset_bottom = -6.0
+text = "Temp outside:"
+label_settings = SubResource("LabelSettings_afmh6")
+vertical_alignment = 2
+
+[node name="HeightAboveTheGround" type="Label" parent="Parameters"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = -14.0
+offset_right = 84.0
+offset_bottom = 15.0
+text = "Height:"
+label_settings = SubResource("LabelSettings_afmh6")
+vertical_alignment = 2
+
+[node name="VelocityUpDown" type="Label" parent="Parameters"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = 6.0
+offset_right = 84.0
+offset_bottom = 35.0
+text = "VelocityUp:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
