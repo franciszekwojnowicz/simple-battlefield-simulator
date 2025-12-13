@@ -6,55 +6,55 @@
 
 [node name="Hud" type="CanvasLayer"]
 
-[node name="Parameters" type="Control" parent="."]
-layout_mode = 3
+[node name="Parameters" type="ColorRect" parent="."]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
+offset_left = -229.0
+offset_top = -184.0
 grow_horizontal = 0
 grow_vertical = 0
+color = Color(0.1584723, 0.15847233, 0.1584723, 1)
 script = ExtResource("1_ui5tf")
 
 [node name="TemperatureInside" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = -183.0
-offset_top = -57.0
-offset_right = 85.0
-offset_bottom = -28.0
+offset_left = 9.0
+offset_top = 18.0
+offset_right = 277.0
+offset_bottom = 47.0
 text = "Temp inside:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
 
 [node name="TemperatureOutside" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = -184.0
-offset_top = -35.0
-offset_right = 84.0
-offset_bottom = -6.0
+offset_left = 8.0
+offset_top = 40.0
+offset_right = 276.0
+offset_bottom = 69.0
 text = "Temp outside:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
 
 [node name="HeightAboveTheGround" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = -184.0
-offset_top = -14.0
-offset_right = 84.0
-offset_bottom = 15.0
+offset_left = 8.0
+offset_top = 61.0
+offset_right = 276.0
+offset_bottom = 90.0
 text = "Height:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
 
 [node name="VelocityUpDown" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = -184.0
-offset_top = 6.0
-offset_right = 84.0
-offset_bottom = 35.0
+offset_left = 8.0
+offset_top = 81.0
+offset_right = 276.0
+offset_bottom = 110.0
 text = "VelocityUp:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
