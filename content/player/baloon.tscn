@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://blfid41568rh7"]
+[gd_scene load_steps=8 format=3 uid="uid://blfid41568rh7"]
 
 [ext_resource type="Script" uid="uid://6w5hs783ap07" path="res://content/player/baloon.gd" id="1_7eq7y"]
 [ext_resource type="Script" uid="uid://d25e5k1gph11s" path="res://content/camera_pivot.gd" id="2_eqhej"]
@@ -11,6 +11,10 @@ albedo_color = Color(0.25722882, 0.5978376, 0.4144482, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w5e7a"]
 material = SubResource("StandardMaterial3D_yqvsc")
+
+[sub_resource type="SphereMesh" id="SphereMesh_7eq7y"]
+radius = 10.0
+height = 20.0
 
 [node name="Baloon" type="CharacterBody3D"]
 script = ExtResource("1_7eq7y")
@@ -31,6 +35,10 @@ transform = Transform3D(1, 0, 0, 0, 0.8161376, 0.5778576, 0, -0.5778576, 0.81613
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.678, 0)
 
 [node name="TemperatureLossTimer" type="Timer" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.574234, 0)
+mesh = SubResource("SphereMesh_7eq7y")
 
 [connection signal="timeout" from="TemperatureLossTimer" to="." method="_on_temperature_loss_timer_timeout"]
 
