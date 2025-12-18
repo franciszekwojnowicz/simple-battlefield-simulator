@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://djsiyhymylpqs"]
+
+[ext_resource type="Script" uid="uid://c8l2vp5cfkwqq" path="res://content/items/destructible_elements/wall_generative.gd" id="1_02rdf"]
+
+[node name="WallGenerative" type="Node3D"]
+script = ExtResource("1_02rdf")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dfmad6lf0cfnh"]
+[gd_scene load_steps=17 format=3 uid="uid://dfmad6lf0cfnh"]
 
 [ext_resource type="Script" uid="uid://ch5xha7t6chia" path="res://content/main.gd" id="1_cc6s6"]
 [ext_resource type="Texture2D" uid="uid://co26g3tj5stsm" path="res://assets/textures/kloofendal_48d_partly_cloudy_puresky_4k.exr" id="2_tij7h"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bx6wkb4e11scd" path="res://content/gui/hud.tscn" id="6_gamge"]
 [ext_resource type="PackedScene" uid="uid://dohryixe1d77c" path="res://assets/terrain_test.fbx" id="8_2hg16"]
 [ext_resource type="PackedScene" uid="uid://cv5fflaote1gp" path="res://content/items/destructible_elements/wall.tscn" id="9_2hg36"]
+[ext_resource type="PackedScene" uid="uid://djsiyhymylpqs" path="res://content/items/destructible_elements/wall_generative.tscn" id="10_5bm0a"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_2hg16"]
 panorama = ExtResource("2_tij7h")
@@ -117,5 +118,9 @@ shape = SubResource("ConcavePolygonShape3D_2hg16")
 
 [node name="Wall" parent="." instance=ExtResource("9_2hg36")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.986243, 0.011908531, 0)
+visible = false
+
+[node name="WallGenerative" parent="." instance=ExtResource("10_5bm0a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 21)
 
 [editable path="terrain_test"]
