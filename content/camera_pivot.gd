@@ -2,6 +2,8 @@ extends Node3D
 
 @export var sensitivity := 0.15
 @export var distance := 6.0
+@export var min_distance := 2.0
+@export var max_distance := 12.0
 @export var height := 3.0
 @export var smoothing := 8.0
 
@@ -17,6 +19,15 @@ func _input(event):
 		pitch -= event.relative.y * sensitivity
 		pitch = clamp(pitch, -50, 30)  # limit up/down
 		rotation_degrees = Vector3(pitch, yaw, 0)
+	
+	if event is InputEventMouseButton:
+		if event.button_index == MouseButton.MOUSE_BUTTON_WHEEL_UP and event.pressed:
+			distance -= 0.5  # zoom in
+			height -= 0.5
+		elif event.button_index == MouseButton.MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+			distance += 0.5  # zoom out
+			height += 0.5
+		#distance = clamp(distance, min_distance, max_distance)
 
 func _process(delta):
 	# Smooth follow
