@@ -10,6 +10,9 @@ extends Node3D
 var yaw := 0.0
 var pitch := -20.0   # slight downward tilt
 
+var baloon : Baloon
+
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -28,12 +31,15 @@ func _input(event):
 			distance += 0.5  # zoom out
 			height += 0.5
 		#distance = clamp(distance, min_distance, max_distance)
+	
+	if event.is_action_pressed("switch_camera"):
+		baloon.camera_mode_bullet = !baloon.camera_mode_bullet
 
 func _process(delta):
 	# Smooth follow
-	var player = get_parent()
-	if player:
-		var target_position = player.global_transform.origin
+	baloon = get_parent()
+	if baloon:
+		var target_position = baloon.global_transform.origin
 
 		# Camera position offset above & behind
 		var cam_offset = Vector3(0, height, distance)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://blfid41568rh7"]
+[gd_scene load_steps=10 format=3 uid="uid://blfid41568rh7"]
 
 [ext_resource type="Script" uid="uid://6w5hs783ap07" path="res://content/player/baloon.gd" id="1_7eq7y"]
 [ext_resource type="Script" uid="uid://d25e5k1gph11s" path="res://content/camera_pivot.gd" id="2_eqhej"]
 [ext_resource type="PackedScene" uid="uid://0r5x1oeoxato" path="res://content/items/cannon.tscn" id="3_523fv"]
 [ext_resource type="PackedScene" uid="uid://c3i2860ycw52y" path="res://assets/envelope.glb" id="4_3i3f7"]
+[ext_resource type="AudioStream" uid="uid://da6mgv682wx38" path="res://assets/sounds/cannon-shot-14799.mp3" id="5_wfhp3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fyksl"]
 
@@ -44,6 +45,10 @@ mesh = SubResource("SphereMesh_7eq7y")
 
 [node name="envelope" parent="." instance=ExtResource("4_3i3f7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+
+[node name="CannonSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_wfhp3")
+volume_db = -5.0
 
 [connection signal="timeout" from="TemperatureLossTimer" to="." method="_on_temperature_loss_timer_timeout"]
 

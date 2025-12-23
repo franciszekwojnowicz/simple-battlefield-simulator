@@ -1,5 +1,6 @@
 extends RigidBody3D
 class_name Bullet
+const EXPLOSION = preload("uid://bqgatecepqpsc")
 
 @export var speed := 200.0
 var direction := Vector3.ZERO
@@ -8,6 +9,8 @@ var direction := Vector3.ZERO
 @onready var particle_trails: GPUParticles3D = $ParticleTrails
 
 @onready var camera_bullet: Camera3D = $CameraBullet
+
+var exploded = false
 
 
 func _ready():
@@ -32,6 +35,7 @@ func _physics_process(_delta: float) -> void:
 	camera_bullet.global_rotation.y = global_rotation.y + deg_to_rad(180)
 	#camera_bullet.global_rotation.z = linear_velocity.z
 	#camera_bullet.global_rotation.x = linear_velocity.x
+	particle_trails.process_material.gravity = - linear_velocity.normalized() * 15
 	
 	if linear_velocity.length() < 100:
 		particle_trails.emitting = false
@@ -41,5 +45,11 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		body.freeze= false
 		#var force = linear_velocity.length() * 0.2
 		#body.apply_impulse(Vector3.ZERO,linear_velocity.normalized() * force)
+	if not exploded:
+		var explosion = EXPLOSION.instantiate()
+		get_tree().root.add_child(explosion)
+		explosion.global_position = global_position
+		explosion.explosion()
+		exploded = true
 	await get_tree().create_timer(0.1).timeout
 	camera_bullet.current = false

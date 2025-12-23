@@ -12,12 +12,17 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 ## Isometric baloon camera
 @onready var camera_isometric: Camera3D = $CameraPivot/CameraIsometric
 
+var camera_mode_bullet = false
+
 # bullet and its direction
 var BULLET = preload("uid://cimw3lovbsfxb")
 var shoot_dir : Vector3
 
 @onready var cannon: Node3D = $Cannon
 @onready var point: Node3D = $Cannon/Point
+@onready var cannon_sound: AudioStreamPlayer3D = $CannonSound
+
+
 
 # Baloon phisic variables #########################################################
 ## Describe the temperature inside the baloon
@@ -122,6 +127,7 @@ func cannon_mechanics() -> void:
 
 ## Create new instance of bullet scene and add a cannon's direction to the bullet velocity
 func shoot() -> void:
+	cannon_sound.play()
 	var bullet : Bullet = BULLET.instantiate()
 	# Assign your direction
 	shoot_dir = - cannon.global_position + point.global_position
@@ -131,7 +137,8 @@ func shoot() -> void:
 	# rotate bullet what is necessary for camera
 	bullet.global_rotation.x = - camera_isometric.global_rotation.x - deg_to_rad(40)
 	bullet.global_rotation.y =   camera_isometric.global_rotation.y + deg_to_rad(180)
-	bullet.camera_bullet.current = true
+	if camera_mode_bullet:
+		bullet.camera_bullet.current = true
 
 
 ## Manage temperature rise and loss, when key pressed heat the air, temperature decreasses over time
