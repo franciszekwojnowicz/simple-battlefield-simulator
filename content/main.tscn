@@ -29,10 +29,12 @@ script = ExtResource("1_cc6s6")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5bm0a")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.97585917, 0.20248426, -0.08184743, -0.163072, 0.9248273, 0.34365973, 0.14528044, -0.32201645, 0.9355207, 0, 4.0627184, 5.6522913)
 light_color = Color(0.94937617, 1, 0.8717683, 1)
 shadow_enabled = true
+directional_shadow_max_distance = 400.0
+sky_mode = 1
 
 [node name="Baloon" parent="." instance=ExtResource("5_gamge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.259266, -7.4057236)

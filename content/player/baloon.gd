@@ -122,12 +122,16 @@ func cannon_mechanics() -> void:
 
 ## Create new instance of bullet scene and add a cannon's direction to the bullet velocity
 func shoot() -> void:
-	var bullet = BULLET.instantiate()
+	var bullet : Bullet = BULLET.instantiate()
 	# Assign your direction
 	shoot_dir = - cannon.global_position + point.global_position
 	bullet.direction = shoot_dir.normalized()
 	get_tree().root.add_child(bullet)
 	bullet.global_position=point.global_position
+	# rotate bullet what is necessary for camera
+	bullet.global_rotation.x = - camera_isometric.global_rotation.x - deg_to_rad(40)
+	bullet.global_rotation.y =   camera_isometric.global_rotation.y + deg_to_rad(180)
+	bullet.camera_bullet.current = true
 
 
 ## Manage temperature rise and loss, when key pressed heat the air, temperature decreasses over time
@@ -144,6 +148,6 @@ func _on_temperature_loss_timer_timeout() -> void:
 	t_inside_baloon -= 1
 	t_inside_baloon = max (t_outside_baloon, t_inside_baloon)
 	timer_on = false
-	print("air resistance: " + str(air_resistance_force))
-	print("net force: " + str(force_net))
-	print("velocity: " + str((round(velocity.y*100)/100)))
+	#print("air resistance: " + str(air_resistance_force))
+	#print("net force: " + str(force_net))
+	#print("velocity: " + str((round(velocity.y*100)/100)))
