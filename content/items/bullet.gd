@@ -29,10 +29,11 @@ func _ready():
 
 func _physics_process(_delta: float) -> void:
 	# Somehow it works
-	camera_bullet.global_position = global_position - linear_velocity.normalized()
-	camera_bullet.look_at(global_position + linear_velocity.normalized(), Vector3.UP)
+	if camera_bullet.current == true:
+		camera_bullet.global_position = global_position - linear_velocity.normalized()
+		camera_bullet.look_at(global_position + linear_velocity.normalized(), Vector3.UP)
 	#camera_bullet.global_rotation = global_rotation
-	camera_bullet.global_rotation.y = global_rotation.y + deg_to_rad(180)
+		camera_bullet.global_rotation.y = global_rotation.y + deg_to_rad(180)
 	#camera_bullet.global_rotation.z = linear_velocity.z
 	#camera_bullet.global_rotation.x = linear_velocity.x
 	particle_trails.process_material.gravity = - linear_velocity.normalized() * 15
