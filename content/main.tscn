@@ -37,7 +37,7 @@ directional_shadow_max_distance = 1000.0
 sky_mode = 1
 
 [node name="Baloon" parent="." instance=ExtResource("5_gamge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.259266, -7.4057236)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 21.416061, -7.4057236)
 
 [node name="Hud" parent="." instance=ExtResource("6_gamge")]
 

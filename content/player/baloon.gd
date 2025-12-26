@@ -2,7 +2,7 @@ extends CharacterBody3D
 class_name Baloon
 
 ## Movement speed in meters per second
-var speed: float = 10.0
+var speed: float = 30.0
 ## Jump impulse strength
 var jump_velocity: float = 4.5
 ## Gravity (default to project setting)
@@ -55,19 +55,27 @@ var air_resistance_force : float
 ## Describe net force including air resistance
 var final_force_net : float
 
+# Wind components
+var wind_strength : int = 0
+var wind_force : Vector3 = Vector3.ZERO
+@onready var wind_change_timer: Timer = $WindChangeTimer
+var wind_change_is_comming : bool = true
+var wind_change_period : float = 10.0
+
+
 
 func _ready() -> void:
 	add_to_group("baloon")
 
 
 func _physics_process(delta: float) -> void:
-	moving()
+	moving(delta)
 	cannon_mechanics()
 	temperature_mechanics(delta)
 
 
 ## Takes intput from keybord and transform it into baloon movement
-func moving() -> void:
+func moving(delta) -> void:
 	# Get Camera direction
 	var direction = camera_isometric.global_transform.basis.z.normalized()
 	shoot_dir = -direction
@@ -86,32 +94,51 @@ func moving() -> void:
 		temp_direction[3] = -direction.cross(Vector3.UP)
 	direction = temp_direction[0] + temp_direction[1] + temp_direction[2] + temp_direction[3]
 	
+
+		
+	var air_resistanse_x = (((surface_from_above) * 1.1 *velocity.x*velocity.x*(preassure/(gas_constant*t_outside_baloon)))/2) / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon))) * delta 
+	if velocity.x > 3 or velocity.x < -3:
+		velocity.x = move_toward(velocity.x,0,air_resistanse_x)
+	else:
+		velocity.x = move_toward(velocity.x, 0, delta)
+	
+	var air_resistanse_z = (((surface_from_above) * 1.1 *velocity.z*velocity.z*(preassure/(gas_constant*t_outside_baloon)))/2) / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon))) * delta
+	if velocity.z > 3 or velocity.z < -3:
+		velocity.z = move_toward(velocity.z,0,air_resistanse_z)
+	else:
+		velocity.z = move_toward(velocity.z, 0, delta)
+		
+	if is_on_floor():
+		velocity.z = move_toward(velocity.z, 0, speed * delta * 0.5)
+		velocity.x = move_toward(velocity.x, 0, speed * delta * 0.5)
+	
+	var wind_change = wind_mechanics() 
+	if not is_on_floor():
+		velocity += wind_change * delta
+		
 	# Apply velocity
 	if Input.get_vector("move_left", "move_right", "move_forward", "move_back"):
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
-	elif is_on_floor():
-		velocity.x = move_toward(velocity.x, 0, speed)
-		velocity.z = move_toward(velocity.z, 0, speed)
+		velocity.x += direction.x * speed * delta
+		velocity.z += direction.z * speed  * delta
 	
 	# Jumping
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = jump_velocity
+		velocity.y = jump_velocity * 5
 	
 	# calculate baloon net velocity up/down and apply movement
-	velocity.y += calculate_acceleration() 
+	velocity.y += calculate_acceleration_y() * delta
 	move_and_slide()
 
 
 ## Calculate current acceleration including gravity, buoyancy and air resistance
-func calculate_acceleration() -> float:
+func calculate_acceleration_y() -> float:
 	force_net = (gravity * baloon_volume * (preassure/gas_constant) * (1/t_outside_baloon - 1/t_inside_baloon) - baloon_mass * gravity)
 	air_resistance_force = (surface_from_above*0.8*velocity.y*velocity.y*(preassure/(gas_constant*t_outside_baloon)))/2
 	final_force_net = force_net
 	# apply air resistance agains current movement direction
-	if velocity.y >= 1:
+	if velocity.y >= 0.1:
 		final_force_net = force_net - air_resistance_force
-	elif velocity.y <= -1:
+	elif velocity.y <= -0.1:
 		final_force_net = force_net + air_resistance_force
 	return (final_force_net / (baloon_mass + baloon_volume*(preassure/(gas_constant*t_inside_baloon))))
 
@@ -123,6 +150,16 @@ func cannon_mechanics() -> void:
 	cannon.global_rotation.y =   camera_isometric.global_rotation.y + deg_to_rad(180)
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
+
+
+func wind_mechanics() -> Vector3:
+	if wind_change_is_comming:
+		wind_change_is_comming = false
+		wind_strength = randi() % 10
+		wind_force = Vector3(randf_range(-1,1),0,randf_range(-1,1)) * wind_strength
+		wind_change_timer.start(wind_change_period)
+	return wind_force
+
 
 
 ## Create new instance of bullet scene and add a cannon's direction to the bullet velocity
@@ -158,3 +195,7 @@ func _on_temperature_loss_timer_timeout() -> void:
 	#print("air resistance: " + str(air_resistance_force))
 	#print("net force: " + str(force_net))
 	#print("velocity: " + str((round(velocity.y*100)/100)))
+
+
+func _on_wind_change_timer_timeout() -> void:
+	wind_change_is_comming = true

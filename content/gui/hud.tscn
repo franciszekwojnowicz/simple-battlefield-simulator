@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bx6wkb4e11scd"]
+[gd_scene load_steps=4 format=3 uid="uid://bx6wkb4e11scd"]
 
 [ext_resource type="Script" uid="uid://drc84nww18lxv" path="res://content/gui/parameters.gd" id="1_ui5tf"]
+[ext_resource type="Script" uid="uid://bbj6s81qeu1ku" path="res://content/gui/wind_compass.gd" id="2_3oy1t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_afmh6"]
 
@@ -58,3 +59,57 @@ offset_bottom = 110.0
 text = "VelocityUp:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
+
+[node name="WindCompass" type="ColorRect" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -82.0
+offset_top = -43.0
+offset_bottom = 43.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.15686275, 0.15686275, 0.15686275, 1)
+script = ExtResource("2_3oy1t")
+
+[node name="CompassFace" type="ColorRect" parent="WindCompass"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.7853982
+pivot_offset = Vector2(10, 10)
+
+[node name="ColorRect" type="ColorRect" parent="WindCompass/CompassFace"]
+layout_mode = 1
+offset_right = 5.0
+offset_bottom = 5.0
+color = Color(1, 0.101960786, 1, 1)
+
+[node name="WindTip" type="ColorRect" parent="WindCompass"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -35.0
+offset_right = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(2.5, 35)
+color = Color(1, 1, 0.105882354, 1)
+
+[node name="WindStrength" type="Label" parent="WindCompass"]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 40.0
+offset_bottom = 23.0
