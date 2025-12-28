@@ -1,19 +1,19 @@
 [gd_scene load_steps=3 format=3 uid="uid://0r5x1oeoxato"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6qbfq"]
-albedo_color = Color(0.19088918, 0.37845868, 0.14423311, 1)
+albedo_color = Color(0.32096282, 0.5205099, 0.80424047, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_6qbfq"]
 material = SubResource("StandardMaterial3D_6qbfq")
 top_radius = 0.1
 bottom_radius = 0.1
-height = 1.5
+height = 4.5
 
 [node name="Cannon" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.75)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 2.236083)
 mesh = SubResource("CylinderMesh_6qbfq")
 
 [node name="Point" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4964548)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.4441195)

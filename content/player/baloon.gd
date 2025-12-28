@@ -22,6 +22,18 @@ var shoot_dir : Vector3
 @onready var point: Node3D = $Cannon/Point
 @onready var cannon_sound: AudioStreamPlayer3D = $CannonSound
 
+@onready var turret: MeshInstance3D = $baloon_parts/Turret
+
+
+@onready var heater: GPUParticles3D = $baloon_parts/Sphere/Heater
+@onready var gas_burn: AudioStreamPlayer3D = $GasBurn
+@onready var engine: MeshInstance3D = $baloon_parts/Engine
+
+@onready var engine_north: GPUParticles3D = $baloon_parts/Engine/EngineNorth
+@onready var engine_south: GPUParticles3D = $baloon_parts/Engine/EngineSouth
+@onready var engine_east: GPUParticles3D = $baloon_parts/Engine/EngineEast
+@onready var engine_west: GPUParticles3D = $baloon_parts/Engine/EngineWest
+
 
 
 # Baloon phisic variables #########################################################
@@ -86,12 +98,24 @@ func moving(delta) -> void:
 	var temp_direction = [Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO]
 	if Input.is_action_pressed("move_back"):
 		temp_direction[0] = direction
+		engine_south.emitting = true
+	else:
+		engine_south.emitting = false
 	if Input.is_action_pressed("move_forward"):
 		temp_direction[1] = -direction
+		engine_north.emitting = true
+	else:
+		engine_north.emitting = false
 	if Input.is_action_pressed("move_left"):
 		temp_direction[2] = direction.cross(Vector3.UP)
+		engine_west.emitting = true
+	else:
+		engine_west.emitting = false
 	if Input.is_action_pressed("move_right"):
 		temp_direction[3] = -direction.cross(Vector3.UP)
+		engine_east.emitting = true
+	else:
+		engine_east.emitting = false
 	direction = temp_direction[0] + temp_direction[1] + temp_direction[2] + temp_direction[3]
 	
 
@@ -146,8 +170,11 @@ func calculate_acceleration_y() -> float:
 ## Manage cannon rotation mased on mose/camera movement and apply shooting
 func cannon_mechanics() -> void:
 	# apply cannon rotation towards the current camera view
-	cannon.global_rotation.x = - camera_isometric.global_rotation.x - deg_to_rad(40)
-	cannon.global_rotation.y =   camera_isometric.global_rotation.y + deg_to_rad(180)
+	cannon.global_rotation.x = - camera_isometric.global_rotation.x - deg_to_rad(20)
+	
+	cannon.global_rotation.y = camera_isometric.global_rotation.y + deg_to_rad(180)
+	turret.global_rotation.y = camera_isometric.global_rotation.y + deg_to_rad(180)
+	engine.global_rotation.y = camera_isometric.global_rotation.y - deg_to_rad(90)
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
 
@@ -182,6 +209,12 @@ func shoot() -> void:
 func temperature_mechanics(delta):
 	if Input.is_action_pressed("burn"):
 		t_inside_baloon += 1 * delta  * 5
+		heater.emitting = true
+		if not gas_burn.playing:
+			gas_burn.play()
+	else:
+		heater.emitting = false
+		gas_burn.stop()
 	if not timer_on:
 		temperature_loss_timer.start(4)
 		timer_on = true

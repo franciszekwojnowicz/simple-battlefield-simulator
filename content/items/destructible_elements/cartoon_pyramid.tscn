@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://sqxny8vmybse"]
+
+[ext_resource type="Script" uid="uid://cdq5rrs80xsjq" path="res://content/items/destructible_elements/cartoon_pyramid.gd" id="1_qsuxc"]
+[ext_resource type="PackedScene" uid="uid://cj0xuq1oqxtb1" path="res://content/meshes/rigid_cube.tscn" id="2_87cjj"]
+
+[node name="CartoonPyramid" type="Node3D"]
+script = ExtResource("1_qsuxc")
+cube_scene = ExtResource("2_87cjj")
