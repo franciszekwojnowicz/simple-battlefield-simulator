@@ -54,3 +54,5 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		exploded = true
 	await get_tree().create_timer(0.1).timeout
 	camera_bullet.current = false
+	await get_tree().create_timer(0.1).timeout
+	queue_free()

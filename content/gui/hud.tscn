@@ -1,9 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://bx6wkb4e11scd"]
+[gd_scene load_steps=7 format=3 uid="uid://bx6wkb4e11scd"]
 
 [ext_resource type="Script" uid="uid://drc84nww18lxv" path="res://content/gui/parameters.gd" id="1_ui5tf"]
 [ext_resource type="Script" uid="uid://bbj6s81qeu1ku" path="res://content/gui/wind_compass.gd" id="2_3oy1t"]
+[ext_resource type="Texture2D" uid="uid://o6lsbancsd2o" path="res://assets/textures/compass_face.png" id="3_7vj7x"]
+[ext_resource type="Texture2D" uid="uid://bakku0htjeut3" path="res://assets/textures/triangle-16.png" id="4_jgq0v"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_afmh6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7vj7x"]
+font_color = Color(1, 1, 0.13725491, 1)
 
 [node name="Hud" type="CanvasLayer"]
 
@@ -13,49 +18,61 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -229.0
-offset_top = -184.0
+offset_left = -200.0
+offset_top = -321.0
+offset_bottom = 79.0
 grow_horizontal = 0
 grow_vertical = 0
 color = Color(0.1584723, 0.15847233, 0.1584723, 1)
 script = ExtResource("1_ui5tf")
 
+[node name="Label" type="Label" parent="Parameters"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 122.0
+offset_right = 184.0
+offset_bottom = 223.0
+text = "===================
+BALOON PARAMETERS
+===================
+"
+
 [node name="TemperatureInside" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = 9.0
-offset_top = 18.0
-offset_right = 277.0
-offset_bottom = 47.0
+offset_left = 8.0
+offset_top = 193.0
+offset_right = 276.0
+offset_bottom = 222.0
 text = "Temp inside:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
 
 [node name="TemperatureOutside" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 40.0
-offset_right = 276.0
-offset_bottom = 69.0
+offset_left = 7.0
+offset_top = 215.0
+offset_right = 275.0
+offset_bottom = 244.0
 text = "Temp outside:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
 
 [node name="HeightAboveTheGround" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 61.0
-offset_right = 276.0
-offset_bottom = 90.0
+offset_left = 7.0
+offset_top = 236.0
+offset_right = 275.0
+offset_bottom = 265.0
 text = "Height:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
 
 [node name="VelocityUpDown" type="Label" parent="Parameters"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 81.0
-offset_right = 276.0
-offset_bottom = 110.0
+offset_left = 7.0
+offset_top = 256.0
+offset_right = 275.0
+offset_bottom = 285.0
 text = "VelocityUp:"
 label_settings = SubResource("LabelSettings_afmh6")
 vertical_alignment = 2
@@ -66,15 +83,15 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -82.0
-offset_top = -43.0
-offset_bottom = 43.0
+offset_left = -200.0
+offset_top = -100.0
+offset_bottom = 200.0
 grow_horizontal = 0
 grow_vertical = 2
 color = Color(0.15686275, 0.15686275, 0.15686275, 1)
 script = ExtResource("2_3oy1t")
 
-[node name="CompassFace" type="ColorRect" parent="WindCompass"]
+[node name="CompassFace" type="TextureRect" parent="WindCompass"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 1
 anchors_preset = 8
@@ -82,16 +99,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -640.0
+offset_right = 640.0
+offset_bottom = 640.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = 0.7853982
-pivot_offset = Vector2(10, 10)
-
-[node name="ColorRect" type="ColorRect" parent="WindCompass/CompassFace"]
-layout_mode = 1
-offset_right = 5.0
-offset_bottom = 5.0
-color = Color(1, 0.101960786, 1, 1)
+scale = Vector2(0.156, 0.156)
+pivot_offset = Vector2(640, 640)
+texture = ExtResource("3_7vj7x")
 
 [node name="WindTip" type="ColorRect" parent="WindCompass"]
 layout_mode = 1
@@ -110,6 +126,17 @@ color = Color(1, 1, 0.105882354, 1)
 
 [node name="WindStrength" type="Label" parent="WindCompass"]
 layout_mode = 0
-offset_left = 4.0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 2.0
+offset_top = 266.0
+offset_right = 38.0
+offset_bottom = 289.0
+text = "Wind strength:"
+label_settings = SubResource("LabelSettings_7vj7x")
+
+[node name="TextureRect" type="TextureRect" parent="WindCompass"]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 34.0
+offset_right = 108.0
+offset_bottom = 50.0
+texture = ExtResource("4_jgq0v")

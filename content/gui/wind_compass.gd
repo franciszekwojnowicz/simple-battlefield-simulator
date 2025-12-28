@@ -3,7 +3,8 @@ extends ColorRect
 
 var baloon: Baloon
 var update_parameters: float = 0
-@onready var compass_face: ColorRect = $CompassFace
+@onready var compass_face: TextureRect = $CompassFace
+
 
 @onready var wind_tip: ColorRect = $WindTip
 
@@ -18,9 +19,9 @@ func _physics_process(delta: float) -> void:
 	current_direction = baloon.shoot_dir
 	current_direction.y = 0
 	if current_direction.z > 0:
-		compass_face.rotation = - Vector3(1,0,0).angle_to(current_direction) + deg_to_rad(45)
+		compass_face.rotation = - Vector3(1,0,0).angle_to(current_direction) 
 	else:
-		compass_face.rotation = Vector3(1,0,0).angle_to(current_direction) + deg_to_rad(45)
+		compass_face.rotation = Vector3(1,0,0).angle_to(current_direction) 
 	
 	
 	if baloon.wind_force.z > 0:
@@ -30,7 +31,7 @@ func _physics_process(delta: float) -> void:
 
 	
 	if update_parameters >= 0.5:
-		wind_strength.text = str((round(baloon.wind_force.length()*100)/100))
+		wind_strength.text = "Wind strength: " + str((round(baloon.wind_force.length()*100)/100))
 		update_parameters = 0
 	update_parameters += delta
 		
