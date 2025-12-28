@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bxe6fauw6ev6u"]
+
+[ext_resource type="Texture2D" uid="uid://cn0x6p4w1n4d4" path="res://assets/textures/Vegetation_Grass_Artificial.jpg" id="1_p80i2"]
+
+[resource]
+albedo_texture = ExtResource("1_p80i2")
+uv1_scale = Vector3(200, 200, 200)
+uv1_triplanar_sharpness = 0.0056357444
+uv1_world_triplanar = true
+uv2_triplanar_sharpness = 92.3357
+uv2_world_triplanar = true
