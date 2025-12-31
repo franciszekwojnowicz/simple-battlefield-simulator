@@ -88,23 +88,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15955424, 4.6535397, 11.628
 [node name="Terrain" parent="." instance=ExtResource("7_tij7h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.050937653, 0.06853104, 0.02022171)
 
-[node name="WallGenerative" parent="." instance=ExtResource("8_2hg16")]
+[node name="DestructibleElements" type="Node3D" parent="."]
+
+[node name="WallGenerative" parent="DestructibleElements" instance=ExtResource("8_2hg16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.155685, 0.06852913, 10.799875)
 
-[node name="CartoonPyramid" parent="." instance=ExtResource("9_2hg36")]
+[node name="CartoonPyramid" parent="DestructibleElements" instance=ExtResource("9_2hg36")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -82)
 
-[node name="CartoonPyramid2" parent="." instance=ExtResource("9_2hg36")]
+[node name="CartoonPyramid2" parent="DestructibleElements" instance=ExtResource("9_2hg36")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.62033, 0, -46.53714)
 
-[node name="CartoonPyramid3" parent="." instance=ExtResource("9_2hg36")]
+[node name="CartoonPyramid3" parent="DestructibleElements" instance=ExtResource("9_2hg36")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -82.16666, 0, -46.53714)
 
-[node name="CartoonPyramid4" parent="." instance=ExtResource("9_2hg36")]
+[node name="CartoonPyramid4" parent="DestructibleElements" instance=ExtResource("9_2hg36")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -462.99655, 0, -46.53714)
 
-[node name="CartoonPyramid5" parent="." instance=ExtResource("9_2hg36")]
+[node name="CartoonPyramid5" parent="DestructibleElements" instance=ExtResource("9_2hg36")]
 transform = Transform3D(1, 0, 0, 0, 0.877431, 0.4797029, 0, -0.4797029, 0.877431, -462.99655, 0, -260.69968)
 
-[node name="CartoonPyramid6" parent="." instance=ExtResource("9_2hg36")]
+[node name="CartoonPyramid6" parent="DestructibleElements" instance=ExtResource("9_2hg36")]
 transform = Transform3D(1, 0, 0, 0, 0.877431, 0.4797029, 0, -0.4797029, 0.877431, -462.99655, 0, -449.41394)

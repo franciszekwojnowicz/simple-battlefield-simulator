@@ -1,4 +1,6 @@
+@tool
 extends Node3D
+
 
 
 @export var cube_scene: PackedScene
